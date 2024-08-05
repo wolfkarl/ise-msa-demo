@@ -5,7 +5,7 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 17001))
 
-products_service_url = "localhost:17002"
+products_service_url = "products:17002"
 
 
 def get_products():
