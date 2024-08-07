@@ -1,0 +1,25 @@
+apiVersion: skaffold/v4beta11
+kind: Config
+metadata:
+  name: ise-msa-demo
+build:
+  artifacts:
+    - image: src-frontend
+      context: src/frontend
+      docker:
+        dockerfile: Dockerfile
+    - image: src-products
+      context: src/products
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - src/frontend/deployment.yaml
+    - src/products/deployment.yaml
+portForward:
+  - resourceType: service
+    resourceName: src-frontend
+    port: 17001
+  - resourceType: service
+    resourceName: src-products
+    port: 17002

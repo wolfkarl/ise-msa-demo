@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: src-frontend
+  labels:
+    app: src-frontend
+spec:
+  ports:
+  - port: 17001
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app: src-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: src-frontend
+  labels:
+    app: src-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: src-frontend
+  template:
+    metadata:
+      labels:
+        app: src-frontend
+    spec:
+      containers:
+      - name: src-frontend
+        image: src-frontend
