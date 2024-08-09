@@ -5,10 +5,11 @@ metadata:
   labels:
     app: src-frontend
 spec:
+  type: LoadBalancer
   ports:
   - port: 17001
+    targetPort: 17001
     protocol: TCP
-  clusterIP: None
   selector:
     app: src-frontend
 ---
@@ -19,7 +20,7 @@ metadata:
   labels:
     app: src-frontend
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: src-frontend

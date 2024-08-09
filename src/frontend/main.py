@@ -1,22 +1,31 @@
 import requests
 import os
 import json
+import random
+import logging
 from flask import Flask, jsonify
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 17001))
 
-products_service_url = "products:17002"
+products_service_url = "http://src-products:17002"
+
+service_id = random.randrange(1, 100000)
 
 
 def get_products():
-    products_json = requests.get(f"http://{products_service_url}/products")
-    products = json.loads(products_json.text)
+    products = {}
+    try:
+        products_json = requests.get(f"{products_service_url}/products")
+        products = json.loads(products_json.text)
+    except requests.exceptions.ConnectionError as e:
+        logging.warning("error accessing products aah")
+        logging.warning(e)
     return products
 
 @app.route("/")
 def home():
     products = get_products()
-    html = ""
+    html = f"<h1>Great Service, id={service_id}</h1>\n"
     for product in products:
         html += f"<h2>{product['name']}</h2> <span>{product['price'] / 100} EURO</span>"
     return "Hello, this is a Flask Microservice" + html

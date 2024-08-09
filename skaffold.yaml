@@ -16,10 +16,14 @@ manifests:
   rawYaml:
     - src/frontend/deployment.yaml
     - src/products/deployment.yaml
-portForward:
-  - resourceType: service
-    resourceName: src-frontend
-    port: 17001
-  - resourceType: service
-    resourceName: src-products
-    port: 17002
+# portForward:
+#   - resourceType: service
+#     resourceName: src-frontend
+#     port: 17001
+#   - resourceType: service
+#     resourceName: src-products
+#     port: 17002
+#   - resourceType: service
+#     resourceName: gateway
+#     port: 17000
+
