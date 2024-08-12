@@ -30,3 +30,7 @@ spec:
       containers:
       - name: src-products
         image: src-products
+        resources:
+          limits:
+            memory: 1000Mi
+            cpu: 1000m

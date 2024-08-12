@@ -3,6 +3,7 @@ import os
 import json
 import random
 import logging
+import pathlib
 from flask import Flask, jsonify
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 17001))
@@ -10,6 +11,7 @@ port = int(os.environ.get('PORT', 17001))
 products_service_url = "http://src-products:17002"
 
 service_id = random.randrange(1, 100000)
+pod = pathlib.Path("/etc/hostname").read_text()
 
 
 def get_products():
@@ -25,7 +27,7 @@ def get_products():
 @app.route("/")
 def home():
     products = get_products()
-    html = f"<h1>Great Service, id={service_id}</h1>\n"
+    html = f"<h1>Great Service, id={pod}</h1>\n"
     for product in products:
         html += f"<h2>{product['name']}</h2> <span>{product['price'] / 100} EURO</span>"
     return "Hello, this is a Flask Microservice" + html
