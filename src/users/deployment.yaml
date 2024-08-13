@@ -1,36 +1,36 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: src-products
+  name: users
   labels:
-    app: src-products
+    app: users
 spec:
   ports:
-  - port: 17002
+  - port: 80
     protocol: TCP
   selector:
-    app: src-products
+    app: users
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: src-products
+  name: users
   labels:
-    app: src-products
+    app: users
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: src-products
+      app: users
   template:
     metadata:
       labels:
-        app: src-products
+        app: users
     spec:
       containers:
-      - name: src-products
-        image: src-products
+      - name: users
+        image: users
         resources:
           limits:
-            memory: 1000Mi
-            cpu: 1000m
+            memory: 256Mi
+            cpu: 100m

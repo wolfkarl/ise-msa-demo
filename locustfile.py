@@ -6,8 +6,8 @@ class QuickstartUser(HttpUser):
 
     @task
     def hello_world(self):
-        with self.client.get("/") as response:
-            if "Twizzle" not in response.text:
+        with self.client.get("/", catch_response=True) as response:
+            if "karl" not in response.text:
                 response.failure("Got wrong response")
                 
         # self.client.get("/world")

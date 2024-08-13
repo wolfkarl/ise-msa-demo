@@ -6,32 +6,47 @@ import logging
 import pathlib
 from flask import Flask, jsonify
 app = Flask(__name__)
-port = int(os.environ.get('PORT', 17001))
+port = int(os.environ.get('PORT', 80))
 
-products_service_url = "http://src-products:17002"
+posts_url = "http://posts"
+users_url = "http://users"
 
 service_id = random.randrange(1, 100000)
 pod = pathlib.Path("/etc/hostname").read_text()
 
-
-def get_products():
-    products = {}
+def get_users():
     try:
-        products_json = requests.get(f"{products_service_url}/products")
-        products = json.loads(products_json.text)
+        users_json = requests.get(f"{users_url}/users")
+        users = json.loads(users_json.text)
     except requests.exceptions.ConnectionError as e:
-        logging.warning("error accessing products aah")
+        logging.warning("error accessing users aah")
         logging.warning(e)
-    return products
+    return users
+
+def get_posts():
+    posts = {}
+    try:
+        posts_json = requests.get(f"{posts_url}/posts")
+        posts = json.loads(posts_json.text)
+    except requests.exceptions.ConnectionError as e:
+        logging.warning("error accessing posts aah")
+        logging.warning(e)
+    return posts
 
 @app.route("/")
 def home():
-    products = get_products()
+    posts = get_posts()
+    users = get_users()
+    html = posts
     html = f"<h1>Great Service, id={pod}</h1>\n"
-    for product in products:
-        html += f"<h2>{product['name']}</h2> <span>{product['price'] / 100} EURO</span>"
+
+    for post in posts:
+        username = "".join([u['username'] for u in users if u['id'] == post['user_id']])
+        html += f"<p><strong>{username}</strong> <br> {post['text']}</p>"
+    html += json.dumps(users)
     return "Hello, this is a Flask Microservice" + html
 
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=port)
+

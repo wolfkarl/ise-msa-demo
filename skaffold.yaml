@@ -4,18 +4,23 @@ metadata:
   name: ise-msa-demo
 build:
   artifacts:
-    - image: src-frontend
+    - image: frontend
       context: src/frontend
       docker:
         dockerfile: Dockerfile
-    - image: src-products
-      context: src/products
+    - image: posts
+      context: src/posts
+      docker:
+        dockerfile: Dockerfile
+    - image: users
+      context: src/users
       docker:
         dockerfile: Dockerfile
 manifests:
   rawYaml:
     - src/frontend/deployment.yaml
-    - src/products/deployment.yaml
+    - src/posts/deployment.yaml
+    - src/users/deployment.yaml
 # portForward:
 #   - resourceType: service
 #     resourceName: src-frontend

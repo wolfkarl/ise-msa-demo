@@ -2,8 +2,8 @@ services:
   frontend:
     build: src/frontend
     ports:
-      - "17001:17001"
+      - "17001:80"
   products:
     build: src/products
     ports:
-      - "17002:17002"
+      - "17002:80"
