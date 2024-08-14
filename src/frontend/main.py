@@ -4,14 +4,14 @@ import json
 import random
 import logging
 import pathlib
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 80))
 
 posts_url = "http://posts"
 users_url = "http://users"
 
-service_id = random.randrange(1, 100000)
+service_id = random.randrange(1, 100000)    
 pod = pathlib.Path("/etc/hostname").read_text()
 
 def get_users():
@@ -37,14 +37,18 @@ def get_posts():
 def home():
     posts = get_posts()
     users = get_users()
-    html = posts
-    html = f"<h1>Great Service, id={pod}</h1>\n"
 
     for post in posts:
-        username = "".join([u['username'] for u in users if u['id'] == post['user_id']])
-        html += f"<p><strong>{username}</strong> <br> {post['text']}</p>"
-    html += json.dumps(users)
-    return "Hello, this is a Flask Microservice" + html
+        post['username'] = "".join([u['username'] for u in users if u['id'] == post['user_id']])
+
+    # return "Hello, this is a Flask Microservice" + html
+
+    return render_template(
+        'index.html',
+         posts=posts,
+         users=users,
+         pod=pod,
+         )
 
 
 if __name__ == "__main__":
