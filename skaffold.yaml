@@ -21,7 +21,11 @@ manifests:
     - src/frontend/deployment.yaml
     - src/posts/deployment.yaml
     - src/users/deployment.yaml
+#     - prometheus.yaml
 # portForward:
+#   - resourceType: service
+#     resourceName: prometheus
+#     port: 9090
 #   - resourceType: service
 #     resourceName: src-frontend
 #     port: 17001
@@ -31,4 +35,3 @@ manifests:
 #   - resourceType: service
 #     resourceName: gateway
 #     port: 17000
-

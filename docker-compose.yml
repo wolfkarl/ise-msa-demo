@@ -3,7 +3,15 @@ services:
     build: src/frontend
     ports:
       - "17001:80"
-  products:
-    build: src/products
+  users:
+    build: src/users
+    expose:
+      - "80"
     ports:
       - "17002:80"
+  posts:
+    build: src/posts
+    expose: 
+     - "80"
+    ports:
+     - "17003:80"
