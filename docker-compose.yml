@@ -15,3 +15,7 @@ services:
      - "80"
     ports:
      - "17003:80"
+
+    # https://github.com/wolfkarl/ise-msa-demo/
+
+    # docker compose up
