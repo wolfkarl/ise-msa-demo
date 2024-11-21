@@ -31,7 +31,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: frontend
+        image: handson-frontend
+        imagePullPolicy: Never
         resources:
           limits:
             memory: 1000Mi

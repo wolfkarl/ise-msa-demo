@@ -15,6 +15,7 @@ service_id = random.randrange(1, 100000)
 pod = pathlib.Path("/etc/hostname").read_text()
 
 def get_users():
+    users = None
     try:
         users_json = requests.get(f"{users_url}/users")
         users = json.loads(users_json.text)
@@ -36,7 +37,12 @@ def get_posts():
 @app.route("/")
 def home():
     posts = get_posts()
+
     users = get_users()
+
+    if not users:
+        return "cannot access users service 😢"
+
 
     for post in posts:
         post['username'] = "".join([u['username'] for u in users if u['id'] == post['user_id']])
